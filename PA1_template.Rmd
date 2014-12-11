@@ -7,19 +7,66 @@ output:
 
 
 ## Loading and preprocessing the data
-
+```{r, echo=FALSE, message=FALSE}
+library(dplyr)
+library(lubridate)
+```
+```{r}
+# unzip and read activity data
+zipfile <- "activity.zip"
+csvfile <- "activity.csv"
+activity <- read.csv(unz(zipfile,csvfile), sep = ",")
+# NA to 0
+activity <- na.omit(activity)
+#activity$steps[is.na(activity$steps)] <- 0
+activity$interval <- ((activity$interval%/% 100 * 60) + activity$interval%%100)*60
+```
 
 
 ## What is mean total number of steps taken per day?
+```{r}
+activity_df <- tbl_df(activity)
+activity.dailySteps <- activity_df %>%
+      group_by(date) %>%
+      summarise(stepsDay = sum(steps))
+with(activity.dailySteps,plot(as.Date(date,'%Y-%m-%d'),stepsDay,
+                type = "l",
+                cex.lab=0.7, 
+                cex.axis=0.7, 
+                cex.main=0.7,
+                cex.sub=0.7,
+                xlab="Date"))
+summary(activity.dailySteps$stepsDay)
+```
 
 
 
 ## What is the average daily activity pattern?
+```{r}
+activity_df <- tbl_df(activity)
+activity.stepsInterval <- activity_df %>%
+      group_by(interval) %>%
+      summarise(stepsInterval = sum(steps))
 
-
+with(activity.stepsInterval,plot(interval,stepsInterval,
+                              type = "h",
+                              cex.lab=0.7, 
+                              cex.axis=0.7, 
+                              cex.main=0.7,
+                              cex.sub=0.7,
+                              xlab="Time"))
+```
+```{r}
+seconds_to_period(activity.stepsInterval$interval[which.max(activity.stepsInterval$stepsInterval)])
+```
 
 ## Imputing missing values
-
-
-
+```{r}
+activity_na <- read.csv(unz(zipfile,csvfile), sep = ",")
+sum(is.na(activity_na))
+```
+```{r}
+activity_na$steps[is.na(activity_na$steps)] <- activity.stepsInterval$stepsInterval
+activity_filled <-activity_na
+```
 ## Are there differences in activity patterns between weekdays and weekends?
