@@ -30,7 +30,7 @@ activity.dailySteps <- activity_df %>%
       group_by(date) %>%
       summarise(stepsDay = sum(steps))
 with(activity.dailySteps,plot(as.Date(date,'%Y-%m-%d'),stepsDay,
-                type = "l",
+                type = "h",
                 cex.lab=0.7, 
                 cex.axis=0.7, 
                 cex.main=0.7,
@@ -46,7 +46,7 @@ summary(activity.dailySteps$stepsDay)
 activity_df <- tbl_df(activity)
 activity.stepsInterval <- activity_df %>%
       group_by(interval) %>%
-      summarise(stepsInterval = sum(steps))
+      summarise(stepsInterval = mean(steps))
 
 with(activity.stepsInterval,plot(interval,stepsInterval,
                               type = "h",
@@ -68,5 +68,22 @@ sum(is.na(activity_na))
 ```{r}
 activity_na$steps[is.na(activity_na$steps)] <- activity.stepsInterval$stepsInterval
 activity_filled <-activity_na
+head(activity_filled)
 ```
+
+```{r}
+activity_filled_df <- tbl_df(activity_filled)
+activity_filled.dailySteps <- activity_filled_df %>%
+      group_by(date) %>%
+      summarise(stepsDay = sum(steps))
+
+with(activity_filled.dailySteps,plot(as.Date(date,'%Y-%m-%d'),stepsDay,
+                              type = "h",
+                              cex.lab=0.7, 
+                              cex.axis=0.7, 
+                              cex.main=0.7,
+                              cex.sub=0.7,
+                              xlab="Date"))
+```
+
 ## Are there differences in activity patterns between weekdays and weekends?
