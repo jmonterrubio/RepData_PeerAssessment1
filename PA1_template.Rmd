@@ -12,7 +12,7 @@ library(dplyr)
 library(lubridate)
 library(ggplot2)
 library(knitr)
-opts_chunk$set(fig.path='figures/')
+opts_chunk$set(fig.path='figure/')
 Sys.setlocale("LC_TIME", "en_US.UTF8")
 ```
 

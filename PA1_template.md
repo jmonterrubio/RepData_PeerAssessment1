@@ -8,7 +8,7 @@ library(dplyr)
 library(lubridate)
 library(ggplot2)
 library(knitr)
-opts_chunk$set(fig.path='figures/')
+opts_chunk$set(fig.path='figure/')
 Sys.setlocale("LC_TIME", "en_US.UTF8")
 ```
 
@@ -54,7 +54,7 @@ with(activity.dailySteps,plot(as.Date(date,'%Y-%m-%d'),stepsDay,
                 xlab="Date"))
 ```
 
-![](figures/daily_steps-1.png) 
+![](figure/daily_steps-1.png) 
 
 2. The mean and median total number of steps taken per day
 
@@ -89,7 +89,7 @@ with(activity.stepsInterval,plot(interval,stepsInterval,
                               xlab="Time"))
 ```
 
-![](figures/steps_interval-1.png) 
+![](figure/steps_interval-1.png) 
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -160,7 +160,7 @@ with(activity_filled.dailySteps,plot(as.Date(date,'%Y-%m-%d'),stepsDay,
                               xlab="Date"))
 ```
 
-![](figures/filled_daily_steps-1.png) 
+![](figure/filled_daily_steps-1.png) 
 
 ```r
 summary(activity_filled.dailySteps$stepsDay)
@@ -196,4 +196,4 @@ g <- ggplot(activity_filled.stepsInterval,aes(x=interval,y=stepsInterval))
 g + geom_line(colour="#56B4E9") +  facet_wrap(~ day, nrow = 2, ncol = 1,) + labs(y = "Number of steps") + theme_bw()
 ```
 
-![](figures/weekdays_vs_weekend-1.png) 
+![](figure/weekdays_vs_weekend-1.png) 
